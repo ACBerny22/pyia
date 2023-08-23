@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import math
+import matplotlib.pyplot as plt
 
 
 archivo_csv = './files/example.csv'  # Reemplaza con la ruta de tu archivo CSV
@@ -57,9 +58,28 @@ def worker(new_dots, frame):
     
 
 if __name__ == '__main__': 
-    new_dots = [[4,5], [18,20], [9,8]]
+    new_dots = [
+        [4,5], 
+        [18,20], 
+        [12,10],
+        [5,5],
+    ]
+    coordinates_matrix = [
+    [25, 8, 4],
+    [8, 26, 9],
+    [16, 9, 12],
+    ]
 
-    print(worker(new_dots, dataframe))
+    dataset = worker(new_dots, dataframe)
+    print(dataset)
+
+    colors = {'A': 'red', 'B': 'blue', 'C': 'green', 'D': 'purple', 'E': 'orange'}
+    for class_label, color in colors.items():
+        class_data = dataset[dataset['class'] == class_label]
+        plt.scatter(class_data['x_coord'], class_data['y_coord'], c=color, label=class_label)
+
+    plt.show()
+
 
 
 #ily ily2
