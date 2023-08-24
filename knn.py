@@ -3,15 +3,12 @@ import pandas as pd
 import math
 import matplotlib.pyplot as plt
 
-
 archivo_csv = './files/example.csv'  # Reemplaza con la ruta de tu archivo CSV
 dataframe = pd.read_csv(archivo_csv)
-
 
 def euclidean_distance(point1, point2):
     squared_distances = [(a - b)**2 for a, b in zip(point1, point2)]
     return math.sqrt(sum(squared_distances))
-
 
 def get_neighbors(n, matrix):
 
@@ -20,7 +17,6 @@ def get_neighbors(n, matrix):
 
     return sorted_comparison_df.head(n)
    
-
 def worker(new_dots, frame):
 
     comparison_matrix = []
@@ -41,7 +37,7 @@ def worker(new_dots, frame):
         #Now that we have a matrix with everything, wee need to fiter only the ones that are closer.
         neighbors = get_neighbors(3, comparison_matrix)
 
-        #Now that we have only the closer ones, we need to know what is the dominant class.
+        #Now that we have only the closer ones, we need to know which is the dominant class.
         most_common_class = neighbors['class'].value_counts().idxmax()
 
         #Now assign the dominant class to the input dot.
@@ -63,6 +59,7 @@ if __name__ == '__main__':
         [18,20], 
         [12,10],
         [5,5],
+        [13,15.2],
     ]
     coordinates_matrix = [
     [25, 8, 4],
