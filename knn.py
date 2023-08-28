@@ -77,13 +77,3 @@ if __name__ == '__main__':
 
     plt.show()
 
-
-
-#ily ily2
-
-#Te dije varias vecees que mas de un día iba a llevarte el desayuno a la cama! 
-#aii, lo sé yy yo tambien a ti y te voy a cocinar muy rico y ambos tambien los vamos a hacer juntos
-#Super sii!! Te quiero muuucho!!
-#y yo te quiero mucho a ti!!
-
-#Por todo lo que hemos dicho mientras...Jugamos
