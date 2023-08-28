@@ -3,7 +3,7 @@ import pandas as pd
 import math
 import matplotlib.pyplot as plt
 
-archivo_csv = './files/example.csv'  # Reemplaza con la ruta de tu archivo CSV
+archivo_csv = './files/example3.csv'  # Reemplaza con la ruta de tu archivo CSV
 dataframe = pd.read_csv(archivo_csv)
 
 def euclidean_distance(point1, point2):
