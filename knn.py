@@ -3,7 +3,7 @@ import pandas as pd
 import math
 import matplotlib.pyplot as plt
 
-archivo_csv = './files/example3.csv'  # Reemplaza con la ruta de tu archivo CSV
+archivo_csv = './files/dimension.csv'  # Reemplaza con la ruta de tu archivo CSV
 dataframe = pd.read_csv(archivo_csv)
 
 def euclidean_distance(point1, point2):
@@ -60,6 +60,8 @@ if __name__ == '__main__':
         [12,10],
         [5,5],
         [13,15.2],
+        [18,1],
+        [17,2],
     ]
     coordinates_matrix = [
     [25, 8, 4],
@@ -67,13 +69,17 @@ if __name__ == '__main__':
     [16, 9, 12],
     ]
 
-    dataset = worker(new_dots, dataframe)
+    coordinates_matrix_2 = [
+    [2.8,2.4,4.5,4.0,5.7,6.5]
+    ]
+
+    dataset = worker(coordinates_matrix_2, dataframe)
     print(dataset)
 
-    colors = {'A': 'red', 'B': 'blue', 'C': 'green', 'D': 'purple', 'E': 'orange'}
+    """colors = {'A': 'red', 'B': 'blue', 'C': 'green', 'D': 'purple', 'E': 'orange'}
     for class_label, color in colors.items():
         class_data = dataset[dataset['class'] == class_label]
         plt.scatter(class_data['x_coord'], class_data['y_coord'], c=color, label=class_label)
 
-    plt.show()
+    plt.show()"""
 
