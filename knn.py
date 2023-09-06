@@ -1,9 +1,11 @@
-import numpy as np
+# Mauricio Bernabé Fortuna López - 19071489
+# I.A. 7:00 - 8:00
+
 import pandas as pd
 import math
 import matplotlib.pyplot as plt
 
-archivo_csv = './files/dimension.csv'  # Reemplaza con la ruta de tu archivo CSV
+archivo_csv = './files/example3.csv'  # Reemplaza con la ruta de tu archivo CSV
 dataframe = pd.read_csv(archivo_csv)
 
 def euclidean_distance(point1, point2):
@@ -54,7 +56,7 @@ def worker(new_dots, frame):
     
 
 if __name__ == '__main__': 
-    new_dots = [
+    dots_2d = [
         [4,5], 
         [18,20], 
         [12,10],
@@ -63,23 +65,31 @@ if __name__ == '__main__':
         [18,1],
         [17,2],
     ]
-    coordinates_matrix = [
+    dots_3d = [
     [25, 8, 4],
     [8, 26, 9],
     [16, 9, 12],
     ]
 
-    coordinates_matrix_2 = [
+    dots_6d = [
     [2.8,2.4,4.5,4.0,5.7,6.5]
     ]
 
-    dataset = worker(coordinates_matrix_2, dataframe)
+    colors = {'A': 'red', 'B': 'blue', 'C': 'green', 'D': 'purple', 'E': 'orange'}
+    for class_label, color in colors.items():
+        class_data = dataframe[dataframe['class'] == class_label]
+        plt.scatter(class_data['x_coord'], class_data['y_coord'], c=color, label=class_label)
+        plt.scatter([dot[0] for dot in dots_2d], [dot[1] for dot in dots_2d], c='black', label='Additional Point')
+
+    plt.show()
+
+    dataset = worker(dots_2d, dataframe)
     print(dataset)
 
-    """colors = {'A': 'red', 'B': 'blue', 'C': 'green', 'D': 'purple', 'E': 'orange'}
+    
+    colors = {'A': 'red', 'B': 'blue', 'C': 'green', 'D': 'purple', 'E': 'orange'}
     for class_label, color in colors.items():
         class_data = dataset[dataset['class'] == class_label]
         plt.scatter(class_data['x_coord'], class_data['y_coord'], c=color, label=class_label)
 
-    plt.show()"""
-
+    plt.show()

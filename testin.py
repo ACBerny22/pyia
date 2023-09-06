@@ -16,6 +16,7 @@ for row in matrix:
 
 print(colors)
 
+
 # Contar las ocurrencias de cada elemento en la lista
 color_counter = Counter(colors)
 
@@ -23,3 +24,9 @@ color_counter = Counter(colors)
 most_common_color = color_counter.most_common(1)[0][0]
 
 print(f"El color más repetido es: {most_common_color}")
+
+def manhattan_distance(point1, point2):
+    
+    return abs(point1[0] - point1[1]) + abs(point2[0] - point2[1])
+
+print(manhattan_distance([4, 5], [1, 2]))
