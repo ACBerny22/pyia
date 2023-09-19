@@ -1,32 +1,26 @@
-from collections import Counter
+import numpy as np
+import pandas as pd
 
-matrix = [
-    [2.23, 'azul'],
-    [2.25, 'rojo'],
-    [3, 'azul'],
-]
+# Establece una semilla aleatoria para reproducibilidad
+np.random.seed(42)
 
-print(matrix)
+# Genera puntos para la clase A (primer clúster)
+class_a_x = np.random.normal(2, 1, 50)
+class_a_y = np.random.normal(3, 1, 50)
+class_a = pd.DataFrame({'x_coord': class_a_x, 'y_coord': class_a_y, 'class': 'A'})
 
-colors = []
+# Genera puntos para la clase B (segundo clúster)
+class_b_x = np.random.normal(7, 1, 50)
+class_b_y = np.random.normal(7, 1, 50)
+class_b = pd.DataFrame({'x_coord': class_b_x, 'y_coord': class_b_y, 'class': 'B'})
 
-for row in matrix:
-    color = row[1]
-    colors.append(color)
+# Genera puntos para la clase C (tercer clúster)
+class_c_x = np.random.normal(4, 1, 50)
+class_c_y = np.random.normal(7, 1, 50)
+class_c = pd.DataFrame({'x_coord': class_c_x, 'y_coord': class_c_y, 'class': 'C'})
 
-print(colors)
+# Combina los DataFrames en un conjunto de entrenamiento
+training_set = pd.concat([class_a, class_b, class_c], ignore_index=True)
 
-
-# Contar las ocurrencias de cada elemento en la lista
-color_counter = Counter(colors)
-
-# Obtener el elemento más repetido
-most_common_color = color_counter.most_common(1)[0][0]
-
-print(f"El color más repetido es: {most_common_color}")
-
-def manhattan_distance(point1, point2):
-    
-    return abs(point1[0] - point1[1]) + abs(point2[0] - point2[1])
-
-print(manhattan_distance([4, 5], [1, 2]))
+# Muestra las primeras filas del conjunto de entrenamiento
+print(training_set.head())

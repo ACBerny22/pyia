@@ -4,8 +4,10 @@
 import pandas as pd
 import math
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 
-archivo_csv = './files/example3.csv'  # Reemplaza con la ruta de tu archivo CSV
+
+archivo_csv = './files/example2.csv'  # Reemplaza con la ruta de tu archivo CSV
 dataframe = pd.read_csv(archivo_csv)
 
 def euclidean_distance(point1, point2):
@@ -65,6 +67,15 @@ if __name__ == '__main__':
         [18,1],
         [17,2],
     ]
+
+    dots_2d_2 = [
+        [3,3.7],
+        [3.2,1.5],
+        [2.1,4.67],
+        [1.2,2.5],
+        [4.6,4.2],
+    ]
+
     dots_3d = [
     [25, 8, 4],
     [8, 26, 9],
@@ -75,21 +86,75 @@ if __name__ == '__main__':
     [2.8,2.4,4.5,4.0,5.7,6.5]
     ]
 
+
+    # Mapea los colores a colores reales que quieras utilizar
+    colors = {'A': 'red', 'B': 'blue', 'C': 'green', 'D': 'purple', 'E': 'orange'}
+
+        # Crea una figura 3D
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+
+    # Itera sobre las filas del DataFrame y traza los puntos con colores correspondientes
+    for index, row in dataframe.iterrows():
+        x, y, z, color = row['x_coord'], row['y_coord'], row['z_coord'], row['class']
+        ax.scatter(x, y, z, c=colors[color], label=color)
+        ax.scatter([dot[0] for dot in dots_3d], [dot[1] for dot in dots_3d], [dot[2] for dot in dots_3d], c='black', label='Additional Point')
+
+
+    # Agrega etiquetas de ejes
+    ax.set_xlabel('Eje X')
+    ax.set_ylabel('Eje Y')
+    ax.set_zlabel('Eje Z')
+
+    # Muestra el gráfico 3D
+    plt.show()
+
+    """
     colors = {'A': 'red', 'B': 'blue', 'C': 'green', 'D': 'purple', 'E': 'orange'}
     for class_label, color in colors.items():
         class_data = dataframe[dataframe['class'] == class_label]
         plt.scatter(class_data['x_coord'], class_data['y_coord'], c=color, label=class_label)
-        plt.scatter([dot[0] for dot in dots_2d], [dot[1] for dot in dots_2d], c='black', label='Additional Point')
+        plt.scatter([dot[0] for dot in dots_2d_2], [dot[1] for dot in dots_2d_2], c='black', label='Additional Point')
 
     plt.show()
+    """
 
-    dataset = worker(dots_2d, dataframe)
+    dataset = worker(dots_3d, dataframe)
     print(dataset)
 
-    
+
+    # Supongamos que tienes un DataFrame llamado 'df' con cuatro columnas: x, y, z y color
+    # Por ejemplo:
+    # df = pd.DataFrame({'x': [1, 2, 3, 4],
+    #                    'y': [2, 3, 4, 5],
+    #                    'z': [3, 4, 5, 6],
+    #                    'color': ['A', 'B', 'C', 'D']})
+
+    # Crea una figura 3D
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+
+    # Itera sobre las filas del DataFrame y traza los puntos con colores correspondientes
+    for index, row in dataset.iterrows():
+        x, y, z, color = row['x_coord'], row['y_coord'], row['z_coord'], row['class']
+        ax.scatter(x, y, z, c=colors[color], label=color)
+
+    # Agrega etiquetas de ejes
+    ax.set_xlabel('Eje X')
+    ax.set_ylabel('Eje Y')
+    ax.set_zlabel('Eje Z')
+
+    # Muestra el gráfico 3D
+    plt.show()
+
+
+
+
+    """
     colors = {'A': 'red', 'B': 'blue', 'C': 'green', 'D': 'purple', 'E': 'orange'}
     for class_label, color in colors.items():
         class_data = dataset[dataset['class'] == class_label]
         plt.scatter(class_data['x_coord'], class_data['y_coord'], c=color, label=class_label)
 
     plt.show()
+    """

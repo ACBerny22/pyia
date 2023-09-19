@@ -39,10 +39,12 @@ def get_neighbors(n, matrix):
 
     return sorted_comparison_df.head(n)
 
-def graphic(graph_body, colors):
+def graphic(graph_body, colors, dot):
     for class_label, color in colors.items():
         class_data = graph_body[graph_body['class'] == class_label]
         plt.scatter(class_data['x_coord'], class_data['y_coord'], c=color, label=class_label)
+
+    plt.scatter(dot[0][0], dot[0][1], c="black")     
 
     plt.show()
    
@@ -94,25 +96,27 @@ def runtime(K, new_dot, training_set, ):
 if __name__ == '__main__': 
 
     new_dot = [
-        [2.1, 3.9], 
+        [4,4], 
     ]
 
     colors = {'A': 'red', 'B': 'blue', 'C': 'green', 'D': 'purple', 'E': 'orange'}
 
-    graphic(dataframe, colors)
-
+    graphic(dataframe, colors, new_dot)
 
     result_df = pd.DataFrame(columns=['K', 'Class'])
 
     # 1: Euclidiana
     # 2: Manhattan
     # 3: Jaccard
-    for i in range(1, 10):
-        dataset = worker(new_dot, dataframe, i, EUCLIDIANA)
+    for i in range(1, 21):
+        dataset = worker(new_dot, dataframe, i, MANHATTAN)
         result_df = result_df._append({'K': i, 'Class': dataset}, ignore_index=True)
 
     print("-------------------------------------")
     print("Para el punto:", *new_dot)
     print("-------------------------------------")
     print(result_df.to_string(index=False))
+
+    #result_df.to_csv('jaccard_ks.csv', index=False)
+
 
