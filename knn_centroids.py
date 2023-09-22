@@ -46,7 +46,7 @@ def graphic(graph_body, colors, dot, centroids, is_final):
 
     # Dibuja el punto nuevo
     if(not is_final):
-        plt.scatter(dot[0][0], dot[0][1], c="black")
+        plt.scatter([dot[0] for dot in new_dot], [dot[1] for dot in new_dot], c='black', label='Additional Point')
     
     # Dibuja los centroides
     plt.scatter(centroids['x'], centroids['y'], marker='*', color='firebrick', s=100)
@@ -84,33 +84,45 @@ def get_centroids(classes, sub_dataframes):
 def worker_2(centroids, new_dot, distance):
 
     distances = []
+    out = []
 
-    for index, row in centroids.iterrows():
-        x_cord = row['x']
-        y_cord = row['y']
-        
-        if(distance == 1):
-            distance = euclidean_distance([x_cord, y_cord], new_dot[0])
-        elif(distance == 2):
-            distance = manhattan_distance([x_cord, y_cord], new_dot[0])
-        elif(distance == 3):
-            distance = jaccard_distance([x_cord, y_cord], new_dot[0])
+    for i in range(len(new_dot)):
+        for index, row in centroids.iterrows():
+            x_cord = row['x']
+            y_cord = row['y']
 
-        distances.append(distance)
+            print(x_cord)
+            print(y_cord)
+            
+            if(distance == 1):
+                calc = euclidean_distance([x_cord, y_cord], new_dot[i])
+            elif(distance == 2):
+                calc = manhattan_distance([x_cord, y_cord], new_dot[i])
+            elif(distance == 3):
+                calc = jaccard_distance([x_cord, y_cord], new_dot[i])
 
-    centroids['distance'] = distances
+            distances.append(calc)
 
-    valor_minimo = centroids['distance'].min()
-    fila_con_minimo = centroids.loc[centroids['distance'] == valor_minimo]
+        print(distances)
+        centroids['distance'] = distances
 
-    dataframe.loc[len(dataframe.index)] = [new_dot[0][0], new_dot[0][1], fila_con_minimo['class'].values[0]]
+        valor_minimo = centroids['distance'].min()
+        fila_con_minimo = centroids.loc[centroids['distance'] == valor_minimo]
 
-    return [new_dot[0][0], new_dot[0][1], fila_con_minimo['class'].values[0]]
+        distances = []
+
+        dataframe.loc[len(dataframe.index)] = [new_dot[i][0], new_dot[i][1], fila_con_minimo['class'].values[0]]
+        element = [new_dot[i][0], new_dot[i][1], fila_con_minimo['class'].values[0]]
+        out.append(element)
+
+    return out
 
 if __name__ == '__main__': 
 
     new_dot = [
-        [11.23,1.725], 
+        [10.6839585, 2.765],
+        [9.5544645, 17.729107],
+        [14.650000, 6.100000],
     ]
 
     colors = {'A': 'tomato', 'B': 'cornflowerblue', 'C': 'mediumseagreen', 'D': 'darkviolet', 'E': 'orange'}
