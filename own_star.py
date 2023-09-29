@@ -1,3 +1,6 @@
+# Mauricio Bernabé Fortuna López - 19071489
+# I.A. 7:00 - 8:00
+
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -29,12 +32,13 @@ def get_neighbours(maze, current_node):
     return neighbours
 
 def create_values(node, start_point, end_point):
-    #Distancia entre el nodo nuevo y el nodo inicial
-    node.g = node.g+1
+    # Es el nodo más 10 porque es UN SOLO salto, puesto que es vecino.
+    node.g = 10+node.parent.g
+    #node.g = get_distance([node.position[0], node.position[1]], start_point)
     node.h = get_distance([node.position[0], node.position[1]], end_point)
     node.f = node.g + node.h
 
-def get_final_path(final_node):
+def get_final_path(final_node, maze):
     final_path = []
     current_node = final_node
 
@@ -69,6 +73,7 @@ def find_path(maze, start_point, end_point):
 
     open_list = []
     closed_list = []
+    to_print = []
 
     open_list.append(start_node)
 
@@ -89,14 +94,22 @@ def find_path(maze, start_point, end_point):
         # print(current_node.position)
 
         if current_node.position == end_node.position:
-            path = get_final_path(current_node)
-            print(path)
+            path = get_final_path(current_node, maze)
+            #path = transform_path(maze, path)
             break
 
 
         # Quitamos el nodo inicial de la open_list y la ponemos en el closed_list
         open_list.pop(current_node_index)
         closed_list.append(current_node)
+
+        for node in closed_list:
+            to_print.append(node.position)
+        
+        print("The nodes in this lap are: ")
+        print(node.position)
+
+        to_print = []
 
         # Obtenemos los vecinos
         neighbours_pos = get_neighbours(maze, current_node)
@@ -114,36 +127,62 @@ def find_path(maze, start_point, end_point):
         for child in children:
             open_list.append(child)
 
-        # Imprimmos cada que se actualiza la open_list, para propositos de graficación, no le
-        # hagas caso a esto plox. 
-        for explored in open_list:
-            print(explored.position)
-
         i += 1
 
     return path
+
 
 
 def main():
 
     # (fila, columna)
     maze = np.array([
-        [0,0,0,0,0,0],
-        [0,0,0,0,0,0],
-        [0,0,1,0,0,0],
-        [0,0,1,0,0,0],
-        [0,0,1,0,0,0],
-        [0,0,0,0,0,0],
+        [0,1,0,0,0,0],
+        [0,1,0,1,0,1],
+        [1,0,1,1,1,0],
+        [0,1,1,0,1,1],
+        [0,0,0,1,0,0],
     ])
 
-    start_point = [5,0]
-    end_point = [0, 5]
+
+    start_point = [0,0]
+    end_point = [4,5]
+
 
     path = find_path(maze, start_point, end_point)
+    print(path)
+    #print(obstaculos)
+    #create_maze_2(path, obstaculos)
 
+    print(get_obstacles(maze))
     create_maze(maze, path)
 
+def get_obstacles(maze):
 
+    obstacles = []
+
+    #We need indexes!!
+    for row in maze:
+        for column in row:
+            if column == 1:
+                obstacles.append([row, column])
+
+    obstacles = transform_path(maze, obstacles)
+    return obstacles
+
+
+def transform_path(matrix, path):
+    # Get the number of rows and columns in the matrix
+    num_rows, num_cols = matrix.shape
+    translated_route = []
+
+    for node in path:
+        # Translate the indices
+        x = node[1]  # Column index becomes x-coordinate
+        y = num_rows - 1 - node[0]  # Invert the row index and subtract from the total rows to get y-coordinate
+        translated_route.append([x,y])
+
+    return translated_route
 
 def create_maze(maze, path):
     num_rows, num_cols = maze.shape
@@ -152,13 +191,15 @@ def create_maze(maze, path):
     fig, ax = plt.subplots()
 
     def update_cell_color(row, col, new_color):
-        cell_color = 'black' if maze[row, col] == 1 else 'white'
+        cell_color = 'gray' if maze[row, col] == 1 else 'white'
         ax.add_patch(plt.Rectangle((col, num_rows - row - 1), 1, 1, color=new_color))
+
+        
 
     # Iterate through the matrix and create a colored rectangle for each cell
     for i in range(num_rows):
         for j in range(num_cols):
-            cell_color = 'black' if maze[i, j] == 1 else 'white'
+            cell_color = 'slategray' if maze[i, j] == 1 else 'white'
             ax.add_patch(plt.Rectangle((j, num_rows - i - 1), 1, 1, color=cell_color))
 
     # Set the aspect ratio to equal to ensure square cells
@@ -169,10 +210,47 @@ def create_maze(maze, path):
     ax.set_ylim(0, num_rows)
 
     for point in path:
-        update_cell_color(point[0], point[1], 'red')
+        update_cell_color(point[0], point[1], 'tomato')
+        
     plt.show()
 
 
+limites_x = (0, 10)  # Límites para el eje X
+limites_y = (0, 10)  # Límites para el eje Y
+
+def actualizar_grafica(ruta_actual, obstaculos):
+    x, y = zip(*ruta_actual)  # Separar las coordenadas x e y de la ruta
+    plt.clf()  # Limpiar la figura anterior
+
+    # Dibujar la ruta
+    plt.plot(x, y, marker='o', linestyle='-', color='b')
+
+    # Dibujar los obstáculos en rojo
+    for obstaculo in obstaculos:
+        plt.scatter(obstaculo[0], obstaculo[1], color='red', marker='s', s=200)
+
+    plt.xticks(range(int(limites_x[0]), int(limites_x[1]) + 1))
+    plt.yticks(range(int(limites_y[0]), int(limites_y[1]) + 1))
+
+    plt.xlabel('Coordenada X')
+    plt.ylabel('Coordenada Y')
+    plt.title('Recorrido de la Ruta')
+    plt.xlim(limites_x)  # Establecer límites en el eje X
+    plt.ylim(limites_y)  # Establecer límites en el eje Y
+    plt.grid(True)
+
+    plt.pause(0.5)  # Pausa para controlar la velocidad de actualización
+
+def create_maze_2(ruta, obstaculos):
+    # Inicializar la figura
+    plt.figure()
+
+    # Recorrer la ruta y actualizar la gráfica
+    for i in range(len(ruta)):
+        ruta_actual = ruta[:i + 1]  # Obtener la porción de la ruta hasta el punto actual
+        actualizar_grafica(ruta_actual, obstaculos)
+
+    plt.show()
 
 if __name__ == '__main__':
     main()
