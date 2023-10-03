@@ -1,68 +1,59 @@
-import matplotlib.pyplot as plt
-import random
-import time
-import numpy as np
+import pygame
 
-# Datos de ejemplo: una lista de coordenadas que representan la ruta
-ruta = [[3, 0], [2, 1], [2, 2], [1, 3], [1, 4], [0, 5], [1, 6]]
+# Configuración del tablero (ancho y alto de la ventana, tamaño de cada celda)
+ANCHO = 600
+ALTO = 600
+TAMANO_CELDA = 60
+CANTIDAD_CELDAS = 10
 
-# (fila, columna)
-maze = np.array([
-    [0,0,1,0,0,0,0,0],
-    [0,0,1,0,0,1,0,0],
-    [0,0,0,0,0,1,0,0],
-    [0,0,1,0,0,0,0,0],
-    [0,0,1,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0],
-])
+# Colores
+BLANCO = (255, 255, 255)
+AZUL = (0, 0, 255)
+ROJO = (255, 0, 0)
 
-def translate_matrix_indices_to_coordinates(matrix, path):
-    # Get the number of rows and columns in the matrix
-    num_rows, num_cols = matrix.shape
-    translated_route = []
+# Función para dibujar el tablero con las naves y la cuadrícula
+def dibujar_tablero(tablero, pantalla, celda_clicada=None):
+    for fila in range(CANTIDAD_CELDAS):
+        for columna in range(CANTIDAD_CELDAS):
+            pygame.draw.rect(pantalla, (0,0,0), (columna * TAMANO_CELDA, fila * TAMANO_CELDA, TAMANO_CELDA, TAMANO_CELDA), 1)  # Dibujar cuadrícula
+            if tablero[fila][columna] == '■':
+                pygame.draw.rect(pantalla, AZUL, (columna * TAMANO_CELDA, fila * TAMANO_CELDA, TAMANO_CELDA, TAMANO_CELDA))  # Dibujar nave
+            if celda_clicada and fila == celda_clicada[0] and columna == celda_clicada[1]:
+                pygame.draw.rect(pantalla, ROJO, (columna * TAMANO_CELDA, fila * TAMANO_CELDA, TAMANO_CELDA, TAMANO_CELDA))  # Dibujar celda clicada en rojo
 
-    for node in path:
-        # Translate the indices
-        x = node[1]  # Column index becomes x-coordinate
-        y = num_rows - 1 - node[0]  # Invert the row index and subtract from the total rows to get y-coordinate
-        translated_route.append([x,y])
+# Función principal
+def main():
+    pygame.init()
+    pantalla = pygame.display.set_mode((ANCHO, ALTO))
+    pygame.display.set_caption('Batalla Naval')
 
-    return translated_route
-
-limites_x = (0, 10)  # Límites para el eje X
-limites_y = (0, 10)  # Límites para el eje Y
-
-# Crear una función que actualice la gráfica con la ruta
-def actualizar_grafica(ruta_actual):
-    x, y = zip(*ruta_actual)  # Separar las coordenadas x e y de la ruta
-    plt.clf()  # Limpiar la figura anterior
-    plt.plot(x, y, marker='o', linestyle='-', color='b')  # Dibujar la ruta
-    plt.xlabel('Coordenada X')
-    plt.ylabel('Coordenada Y')
-    plt.title('Recorrido de la Ruta')
-    plt.xlim(limites_x)  # Establecer límites en el eje X
-    plt.ylim(limites_y)  # Establecer límites en el eje Y
-    plt.grid(True)
-    plt.pause(0.5)  # Pausa para controlar la velocidad de actualización
+    # Tu matriz de tablero con las naves
+    tablero = [['⬞' for _ in range(10)] for _ in range(10)]
 
 
-def create_maze(ruta):
+    reloj = pygame.time.Clock()
+    ejecutando = True
 
-    # Inicializar la figura
-    plt.figure()
+    celda_clicada = None  # Almacena la fila y columna de la celda clicada
 
-    #ruta = [(y, x) for x, y in ruta]
+    while ejecutando:
+        for evento in pygame.event.get():
+            if evento.type == pygame.QUIT:
+                ejecutando = False
+            elif evento.type == pygame.MOUSEBUTTONDOWN and evento.button == 1:  # Detecta clic izquierdo del mouse
+                x, y = pygame.mouse.get_pos()
+                fila_clicada = y // TAMANO_CELDA
+                columna_clicada = x // TAMANO_CELDA
+                if fila_clicada < CANTIDAD_CELDAS and columna_clicada < CANTIDAD_CELDAS:
+                    celda_clicada = (fila_clicada, columna_clicada)  # Almacena la celda clicada
 
-    # Recorrer la ruta y actualizar la gráfica
-    for i in range(len(ruta)):
-        ruta_actual = ruta[:i + 1]  # Obtener la porción de la ruta hasta el punto actual
-        actualizar_grafica(ruta_actual)
+        pantalla.fill(BLANCO)  # Limpiar la pantalla
+        dibujar_tablero(tablero, pantalla, celda_clicada)  # Dibujar el tablero con las naves y la cuadrícula
+        pygame.display.flip()  # Actualizar la pantalla
 
-    plt.show() 
+        reloj.tick(60)  # Limitar la velocidad de fotogramas
 
-print(translate_matrix_indices_to_coordinates(maze, ruta))
+    pygame.quit()
 
-nueva_ruta = translate_matrix_indices_to_coordinates(maze, ruta)
-create_maze(nueva_ruta)
+if __name__ == "__main__":
+    main()
