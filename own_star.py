@@ -148,6 +148,16 @@ def main():
     start_point = [0,0]
     end_point = [4,5]
 
+    maze = np.array([
+        [0,0,0,0],
+        [1,0,0,1],
+        [0,0,1,0],
+        [1,0,0,0]
+    ])
+
+    start_point = [0,0]
+    end_point = [3,3]
+
 
     path = find_path(maze, start_point, end_point)
     print(path)
