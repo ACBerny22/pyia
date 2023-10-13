@@ -28,7 +28,7 @@ def build_tuple(element, array_of_frec, target_class):
 
     #Armarmos la tupla.
     tup = (element, df_s[element]/(get_totals(df_s)), df_n[element]/(get_totals(df_n)))
-
+    
     if target_class == class_target:
         total = get_totals(df_n) + get_totals(df_s)
         tup = (element, df_s[element]/total, df_n[element]/total)
@@ -76,18 +76,65 @@ def get_prob_matrix(attributes):
         # Añadimos la lista de tuplas generada anteriormente.
         all_matrix.append(all_matrix_row)
 
+# Obtiene de manera individual.
+def get_prob_value(content, clas, attribute_index):
 
-def get_prob_value(attribute, to_target):
-    pass
+    class_index = 1
+    if clas == 'si': class_index = 0 
+
+    # Obtiene la fila de probabilidades, segun el atributo.
+    selected_line = all_matrix[attribute_index]
+    # Segun la clase que sea, selecciona la tupla.
+    selected_tuple = next((tupla for tupla in selected_line if tupla[0] == content), None)
+
+    # Selecciona la probabilidad dependiendo de la clase que se esta buscando (si o no)
+    selected_prob = selected_tuple[(1+class_index)]
+
+    print(selected_prob)
+    return selected_prob
+
+
+def get_class_by_args(args):
+    max_index = args.index(max(args))
+    return classes[max_index]
+
 
 def main():
     get_prob_matrix(attributes)
 
     print(attributes)
 
+    """
     for row in all_matrix:
         print(' ', row)
+    """
 
+    test_case = ["soleado", "baja", "normal", "no"] #No incluimos jugar.
+
+    args = []
+    for clas in classes:
+        print("for: ", clas)
+        prob = 1 
+        for i in range(len(test_case)):
+            prob = prob * get_prob_value(test_case[i], clas, i)
+        
+        # La ultima fila de tuplas es la de jugar.
+        clas_line = all_matrix[len(all_matrix) - 1]
+        selected_tuple = next((tupla for tupla in clas_line if tupla[0] == clas), None)
+
+        class_index = 1
+        if clas == 'si': class_index = 0 
+
+        prob = prob * (selected_tuple[1+class_index])
+        args.append(prob)
+
+    print(args)
+    
+    final_class = get_class_by_args(args)
+    print("La clasificacion final es: ", final_class)
+
+    
+    
 
 if __name__ == '__main__':
     main()
