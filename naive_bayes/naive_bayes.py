@@ -52,7 +52,6 @@ def get_frequencies_df(classes, attribute):
     return list_of_df
     
 
-
 # Armar la matriz de probabilidades.
 def get_prob_matrix(attributes):
     for i in range(len(attributes)):
@@ -109,7 +108,7 @@ def main():
         print(' ', row)
     """
 
-    test_case = ["soleado", "baja", "normal", "no"] #No incluimos jugar.
+    test_case = ["lluvioso", "media", "normal", "si"] #No incluimos jugar.
 
     args = []
     for clas in classes:
@@ -131,6 +130,8 @@ def main():
     print(args)
     
     final_class = get_class_by_args(args)
+
+    print("El caso es:" , test_case)
     print("La clasificacion final es: ", final_class)
 
     

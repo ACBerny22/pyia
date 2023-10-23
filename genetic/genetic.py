@@ -1,8 +1,13 @@
+# Mauricio Bernabé Fortuna López - 19071489
+# I.A. 7:00 - 8:00
+
 import random
+import time
+
 
 # (1,2,3)
 def foo(solution):
-    return 8*solution[0]**3 + 34*solution[1]**2 + 21*solution[2] - 41
+    return 2*solution[0]**5 - 5*solution[1]**3 + 2*solution[2]**2 - 25
 
 def fitness(solution):
     ans = foo(solution)
@@ -15,7 +20,7 @@ def fitness(solution):
 def crossover(solucion1, solucion2):
     punto_corte = 1 
     nueva_solucion1 = solucion1[:punto_corte] + solucion2[punto_corte:]
-    return mutacion(nueva_solucion1, 0.6)
+    return mutacion(nueva_solucion1, 0.8)
 
 
 # Apply mutation
@@ -31,8 +36,8 @@ def print_l(array):
     for a in array:
         print(a)
 
+i = 0
 def genetic():
-
 
     # Init population.
     # Generate solutions.
@@ -54,11 +59,12 @@ def genetic():
         solutions_with_rank.reverse()
 
         # Print the very best
-        print("=============== Best One ===============")
+        print("=============== Best One in gen:", i, "===============")
         print(solutions_with_rank[0])
 
 
         if solutions_with_rank[0][0] > 9999:
+            return best_solutions[0]
             break; 
 
         # Get best solutions
@@ -78,9 +84,23 @@ def genetic():
             new_generation.append(new_boi)
             
         solutions = new_generation
+        i += 1
 
 def main():
-    genetic()
+
+    inicio = time.time()
+    solution = genetic()
+    fin = time.time()
+    print("Tiempo de ejecucion: ", fin-inicio)
+
+    evaluation = foo(solution[1])
+    print("La solucion es: ", (evaluation+25)) 
+
+
+    error = (25 - evaluation)/(25*100)
+    precision = 100 - error
+    print("La presicion es de: ", precision)
+
 
 if __name__ == '__main__': 
     main()
