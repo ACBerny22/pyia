@@ -26,6 +26,7 @@ while True:
             print_board(board)
             print("Player", current_player + "'s turn")
             try:
+                minmax(board, current_player)
                 row, col = map(int, input("Enter your move (row and column): ").split())
             except ValueError:
                 print("Invalid input. Please enter numbers separated by a space.")
@@ -47,7 +48,7 @@ while True:
             try:
                 # Aquí el otro jugador hace su movida, pero en realidad, aquí se sacará del 
                 # algoritmo minimax
-                minmax(board)
+                minmax(board, current_player)
                 row, col = map(int, input("Enter your move (row and column): ").split())
             except ValueError:
                 print("Invalid input. Please enter numbers separated by a space.")

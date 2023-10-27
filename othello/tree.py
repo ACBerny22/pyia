@@ -29,11 +29,11 @@ def is_valid_move(board, row, col, player):
                 return True
     return False
 
-def get_all_valid_moves(board):
+def get_all_valid_moves(board, player):
     moves = []
     for i in range(8):
         for j in range(8):
-            if is_valid_move(board, i, j, 'O'):
+            if is_valid_move(board, i, j, player):
                 moves.append([i, j])
     return moves
 
@@ -54,8 +54,8 @@ def update_chips(board):
 def make_move(board, row, col, player):
     if not is_valid_move(board, row, col, player):
         xs, os = update_chips(board)
-        print("Fichas X: ", xs)
-        print("Fichas O: ", os)
+        #print("Fichas X: ", xs)
+        #print("Fichas O: ", os)
         return False, xs, os
     
     board[row][col] = player
@@ -88,15 +88,15 @@ def make_move(board, row, col, player):
 def evaluate_move(board, row, col, player):
     # Create a copy of the board to validate moves without affecting the playing board
     board_copy = copy.deepcopy(board)
-    sike, xs, os = make_move(board_copy, row, col, 'O')
+    sike, xs, os = make_move(board_copy, row, col, player)
     return xs, os
 
 
-def minmax(board):
-    moves = get_all_valid_moves(board)
+def minmax(board, player):
+    moves = get_all_valid_moves(board, player)
 
     for move in moves:
-        xs, os = evaluate_move(board, move[0], move[1], 'O')
+        xs, os = evaluate_move(board, move[0], move[1], player)
         score = xs - os
         root.children.append(Node(score, move))
     
