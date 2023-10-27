@@ -72,7 +72,7 @@ def mutacion(solucion, mut_rate, limite=len(matrix)-1):
 
     for elemento in solucion:
         if random.random() < mut_rate:  # Comprueba si ocurre una mutación basada en el factor de mutación
-            nuevo_elemento = elemento + random.randint(-14, 14)  # Muta el elemento sumando un valor aleatorio entre -1 y 1
+            nuevo_elemento = elemento + random.randint(-5, 5)  # Muta el elemento sumando un valor aleatorio entre -14 y 14
             nuevo_elemento = min(max(nuevo_elemento, 0), limite)  # Asegura que el elemento esté en el rango [0, limite]
         else:
             nuevo_elemento = elemento  # No hay mutación en este elemento
@@ -108,7 +108,7 @@ def genetic():
         print(solutions_with_rank[0])
 
 
-        if solutions_with_rank[0][0] < 150:
+        if solutions_with_rank[0][0] < 140:
            break; 
 
         # Get best solutions
