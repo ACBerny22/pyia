@@ -1,45 +1,21 @@
+import random
 
-matrix = [
-    [78, 84, 40, 6, 46, 8, 30, 49, 89, 28, 13, 1, 53, 53, 45, 90, 19, 48, 17, 26],
-    [84, 31, 79, 69, 41, 19, 46, 51, 95, 23, 52, 14, 45, 2, 69, 94, 14, 50, 13, 69], 
-    [18, 20, 5, 88, 83, 49, 62, 6, 48, 30, 34, 5, 90, 52, 49, 46, 79, 71, 53, 82],   
-    [75, 88, 34, 1, 17, 12, 28, 84, 37, 28, 87, 19, 35, 31, 87, 80, 79, 10, 71, 61], 
-    [62, 47, 16, 99, 61, 59, 29, 16, 2, 96, 7, 65, 69, 28, 50, 97, 86, 27, 9, 22],   
-    [67, 94, 15, 80, 10, 61, 64, 48, 79, 74, 36, 86, 78, 48, 67, 78, 45, 9, 70, 42], 
-    [40, 58, 64, 32, 57, 48, 38, 100, 2, 24, 54, 42, 24, 26, 19, 25, 99, 48, 53, 33],
-    [85, 25, 86, 88, 71, 5, 47, 65, 15, 91, 26, 22, 3, 77, 15, 96, 56, 88, 97, 45],
-    [97, 82, 86, 31, 24, 3, 43, 26, 5, 7, 58, 86, 12, 89, 39, 22, 81, 54, 14, 64],
-    [69, 43, 45, 98, 82, 65, 61, 92, 38, 5, 18, 66, 70, 12, 74, 70, 61, 7, 45, 96],
-    [65, 98, 57, 40, 50, 52, 47, 42, 16, 73, 3, 37, 91, 87, 92, 52, 36, 53, 7, 88],
-    [42, 87, 100, 26, 98, 58, 2, 13, 73, 9, 79, 41, 44, 32, 3, 40, 71, 100, 87, 34],
-    [100, 9, 35, 60, 97, 48, 62, 99, 55, 42, 82, 75, 95, 46, 51, 63, 3, 89, 61, 60],
-    [73, 99, 23, 3, 27, 66, 100, 40, 82, 76, 48, 57, 56, 43, 88, 39, 51, 23, 98, 60],
-    [46, 63, 100, 45, 19, 2, 37, 69, 49, 24, 46, 19, 56, 44, 1, 90, 94, 58, 32, 71]
-]
+class Node: 
+    def __init__(self, score, move):
+        self.score = score
+        self.move = move
+        self.children = []
 
-# Works as Fitness too.
-def fitness(solution):
-    total_value = 0
-    for j in range(len(matrix[0])):
-        #print(matrix[solution[j]][j])
-        total_value += matrix[solution[j]] [j]
+def generate_random_tree(depth):
+    if depth == 0:
+        return None
+    else:
+        score = random.randint(1, 100)  # Generate a random score
+        move = "Move " + str(depth)  # Generate a move label
+        node = Node(score, move)
+        node.children = [generate_random_tree(depth - 1) for _ in range(random.randint(1, 4))]  # Randomly generate 1 to 4 children nodes
+        return node
 
-    return total_value
-
-print(fitness( [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]))
-
-# Works as Fitness too.
-def foo():
-    total_value = 0
-    for i in range(len(matrix[0])):
-        column = []
-        for j in range(len(matrix)):
-            column.append(matrix[j][i])
-        
-        total_value = total_value + min(column)
-        
-
-    return total_value
-
-
-print(foo())
+# Example usage
+random_tree = generate_random_tree(3)  # Generating a tree with 3 levels of children
+print(random_tree)

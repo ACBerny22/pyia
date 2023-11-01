@@ -2,12 +2,14 @@ import random
 import copy
 
 class Node: 
-    def __init__(self, score, move):
+    def __init__(self, score, move, after_board):
         self.score = score
         self.move = move
+        self.root_board = None
+        self.after_board = after_board
         self.children = []
 
-root = Node(5, [1,5])
+root = Node(0, [0,0], None)
 
 # Function to check if a move is valid
 def is_valid_move(board, row, col, player):
@@ -30,6 +32,7 @@ def is_valid_move(board, row, col, player):
     return False
 
 def get_all_valid_moves(board, player):
+    print("Evaluated for player:", player)
     moves = []
     for i in range(8):
         for j in range(8):
@@ -89,20 +92,33 @@ def evaluate_move(board, row, col, player):
     # Create a copy of the board to validate moves without affecting the playing board
     board_copy = copy.deepcopy(board)
     sike, xs, os = make_move(board_copy, row, col, player)
-    return xs, os
+    return xs, os, board_copy
 
+
+def evaluate_moves(moves, board, player, container):
+    for move in moves:
+        xs, os, returned_board = evaluate_move(board, move[0], move[1], player)
+        score = os - xs
+        container.append(Node(score, move, returned_board))
+
+def print_tree(node, indent=0):
+    print("  " * indent + f"Score: {node.score}, Move: {node.move}")
+    for child in node.children:
+        print_tree(child, indent + 1)
 
 def minmax(board, player):
+
     moves = get_all_valid_moves(board, player)
+    evaluate_moves(moves, board, player, root.children)
 
-    for move in moves:
-        xs, os = evaluate_move(board, move[0], move[1], player)
-        score = xs - os
-        root.children.append(Node(score, move))
-    
+    opponent = 'O' if player == 'X' else 'X'
+
     for child in root.children:
-        print(child.score, child.move)
+        #print('\n', child.score, child.move)
+        moves = get_all_valid_moves(child.after_board, opponent)
+        evaluate_moves(moves, child.after_board, opponent, child.children)
 
+    print_tree(root)
     root.children = []
 
 
