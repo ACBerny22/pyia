@@ -1,4 +1,5 @@
 from tree import *
+import time
 
 # Initialize the board
 board = [[' ' for _ in range(8)] for _ in range(8)]
@@ -10,12 +11,15 @@ os = 0
 
 # Function to print the board
 def print_board(board):
-    print("  0 1 2 3 4 5 6 7")
+    print("    0   1   2   3   4   5   6   7")
     for i in range(8):
+        print("--+---+---+---+---+---+---+---+---+")
         print(i, end=' ')
         for j in range(8):
-            print(board[i][j], end=' ')
+            print( "|", board[i][j],  end=' ')
+        print("|",  end=' ')
         print()
+    print("--+---+---+---+---+---+---+---+---+")
 
 
 # Sike Loop.
@@ -26,7 +30,8 @@ while True:
             print_board(board)
             print("Player", current_player + "'s turn")
             try:
-                minmax(board, current_player)
+                #root_node = create_tree(board, current_player, 3)
+                #print_tree(root_node)
                 row, col = map(int, input("Enter your move (row and column): ").split())
             except ValueError:
                 print("Invalid input. Please enter numbers separated by a space.")
@@ -45,11 +50,16 @@ while True:
             print("====================== TURNO DEL JUGADOR 2 ======================")
             print_board(board)
             print("Player", current_player + "'s turn")
+            time.sleep(3)
             try:
                 # Aquí el otro jugador hace su movida, pero en realidad, aquí se sacará del 
                 # algoritmo minimax
-                minmax(board, current_player)
-                row, col = map(int, input("Enter your move (row and column): ").split())
+                root_node = create_tree(board, current_player, 5)
+                best_play_node, _ = find_best_play(root_node)
+                #print_tree(root_node)
+                print(f"Best Play: {best_play_node.move}, Score: {best_play_node.score}")
+                row, col = best_play_node.move
+                #row, col = map(int, input("Enter your move (row and column): ").split())
             except ValueError:
                 print("Invalid input. Please enter numbers separated by a space.")
                 continue

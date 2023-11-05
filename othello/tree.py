@@ -32,7 +32,7 @@ def is_valid_move(board, row, col, player):
     return False
 
 def get_all_valid_moves(board, player):
-    print("Evaluated for player:", player)
+    #print("Evaluated for player:", player)
     moves = []
     for i in range(8):
         for j in range(8):
@@ -106,7 +106,7 @@ def print_tree(node, indent=0):
     for child in node.children:
         print_tree(child, indent + 1)
 
-def minmax(board, player):
+"""def minmax(board, player):
 
     moves = get_all_valid_moves(board, player)
     evaluate_moves(moves, board, player, root.children)
@@ -119,20 +119,54 @@ def minmax(board, player):
         evaluate_moves(moves, child.after_board, opponent, child.children)
 
     print_tree(root)
-    root.children = []
+    root.children = []"""
 
+def minimax(root):
+    print_tree(root)
+    pass
 
-"""
-for i in range(5):
-    root.children.append(Node(random.randint(1,10), [1,5]))
+def find_best_play(node, alpha=float('-inf'), beta=float('inf'), maximizing_player=True):
+    if not node.children:
+        return node, node.score  # If it's a leaf node, return itself and its score
+    
+    best_node = None
+    if maximizing_player:
+        max_score = float('-inf')
+        for child in node.children:
+            _, score = find_best_play(child, alpha, beta, False)
+            if score > max_score:
+                max_score = score
+                best_node = child
+            alpha = max(alpha, max_score)
+            if beta <= alpha:
+                break  # Beta cut-off
+        return best_node, max_score
+    else:
+        min_score = float('inf')
+        for child in node.children:
+            _, score = find_best_play(child, alpha, beta, True)
+            if score < min_score:
+                min_score = score
+                best_node = child
+            beta = min(beta, min_score)
+            if beta <= alpha:
+                break  # Alpha cut-off
+        return best_node, min_score
 
-for node in root.children:
-    for i in range(2):
-        node.children.append(Node(random.randint(1,10), [2,6]))
-
-
-for node in root.children:
-    print(node.score)
-    for node_2 in node.children:
-        print("\t", node_2.score)
-        """
+def create_tree(board, player, depth, node=None):
+    if node is None:
+        node = Node(None, "Root", board)
+    
+    if depth == 0:
+        return  # Evaluate the leaf node
+    
+    moves = get_all_valid_moves(node.after_board, player)
+    evaluate_moves(moves, node.after_board, player, node.children)
+    
+    opponent = 'O' if player == 'X' else 'X'
+    
+    for child in node.children:
+        create_tree(child.after_board, opponent, depth - 1, child)  # Recurse with reduced depth for children
+    
+    
+    return node
