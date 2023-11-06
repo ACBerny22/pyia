@@ -1,21 +1,76 @@
-import random
+matrix = [
+	#0	 1	 2	  3	   4   5	6	7	8	9	 10	  11   12	13	14	15	16	17	18	19	20	21	22  23
+	[2,	 99, 4,	  4,   4,  4,	99,	2,	5,	99,	 2,	  5,   4,	0,	1,  99,	3,	3,	3,	4,	3,	99,	1,	9999],# 0
+	[0,	 99, 3,	  99,  3,  99,	3,	3,	5,	4,	 99,  1,   99,	1,	2,  2,	99,	5,	99, 4,	99,	99,	99,	1	],# 1
+	[99, 4,	 99,  99,  99, 2,	99,	5,	3,	4,	 0,	  1,   4,	5,	3,  99,	99,	5,	1,	99,	99,	2,	99,	1	],# 2
+	[5,	 99, 99,  2,   99, 99,	99,	5,	99,	4,	 99,  99,  2,	99,	4,  0,	5, 	3,	0,	99,	3,	99,	3,	1	],# 3
+	[5,	 4,	 5,	  2,   1,  0,	5, 	3,	1,	9999,3,	  99,  3,	5,	5,  0,	99, 99,	99, 4,	99,	99,	99,	1	],# 4
+	[3,	 4,	 3,	  99,  1,  0,	99, 99,	0,	994, 99,  99,  99,	1,	6,  2,	2,	99,	5,	99,	99,	2,	99,	2	],# 5
+	[99, 4,	 99,  99,  99, 2,	2,	99,	99,	4,	 4,	  4,   5,	1,	7,  99,	2,	1,	5,	4,	5,	2,	1,	2	],# 6 
+	[1,	 99, 99,  2,   99, 99,	2,	1,	3,	99,	 4,	  5,   2,	99,	8,  5,	99,	99,	2,	1,	99,	99,	2,	2	],# 7
+	[0,	 99, 3,	  99,  3,  99,	3,	3,	99,	99,	 1,	  0,   5, 	3,	9,  5,	4,	5,	2,	0,	99,	3,	99,	1	],# 8
+	[99, 4,	 99,  99,  99, 2,	99,	5,	99,	2,	 9999,3,   99,	3,	0,  1,	99,	99,	2,	99, 4,	99,	99,	1	],# 9
+	[5,	 99, 99,  2,   99, 99,	99,	5,	5,	2,	 994, 99,  99,	99,	5,  0,	99,	3,	99,	5,	99,	99,	2,	0	],#10
+	[5,	 4,	 5,	  2,   1,  0,	5, 	3,	3,	99,	 1,	  0,   5, 	3,	99, 99, 4,	99,	99,	5,	4,	5,	2,	0	],#11
+	[99, 4,	 4,	  0,   1,  4,	5,	3,  99,	5,	 3,	  4,   0,	1,	4,	5,	3,  99,	99,	5,	1,	99,	99,	2   ],#12
+	[5,	 99, 4,	  99,  99, 2,	99,	4,  99,	5,	 99,  4,   99,	99,	2,	99,	4,  0,	5, 	3,	0,	99,	3,	99  ],#13
+	[5,	 4,	 9999,3,   99, 3,	5,	5,  5, 	3,	 1,	  9999,3,	99,	3,	5,	5,  0,	99, 99,	99, 4,	99,	99  ],#14
+	[3,	 4,	 994, 99,  99, 99,	1,	6,  99, 99,	 0,	  994, 99,	99,	99,	1,	6,  2,	2,	99,	5,	99,	99,	2   ],#15
+	[99, 4,	 4,	  4,   4,  5,	1,	7,  2,	99,	 99,  4,   4,	4,	5,	1,	7,  99,	2,	1,	5,	4,	5,	2   ],#16 
+	[1,	 99, 99,  4,   5,  2,	99,	8,  2,	1,	 3,	  99,  4,	5,	2,	99,	8,  5,	99,	99,	2,	1,	99,	99  ],#17
+	[0,	 99, 99,  1,   0,  5, 	3,	9,  3,	3,	 99,  99,  1,	0,	5, 	3,	9,  5,	4,	5,	2,	0,	99,	3   ],#18
+	[99, 4,	 2,	  9999,3,  99,	3,	0,  99,	5,	 99,  2,   9999,3,	99,	3,	0,  1,	99,	99,	2,	99, 4,	99  ] #19
+]
 
-class Node: 
-    def __init__(self, score, move):
-        self.score = score
-        self.move = move
-        self.children = []
 
-def generate_random_tree(depth):
-    if depth == 0:
-        return None
-    else:
-        score = random.randint(1, 100)  # Generate a random score
-        move = "Move " + str(depth)  # Generate a move label
-        node = Node(score, move)
-        node.children = [generate_random_tree(depth - 1) for _ in range(random.randint(1, 4))]  # Randomly generate 1 to 4 children nodes
-        return node
+matrix = [[24,  15, 67, 24, 5,  14, 6],
+          [45,  24, 64, 97, 43, 6,  12],
+          [90,  37, 73, 32, 10, 78, 32],
+          [27,  65, 39, 25, 9,  85, 32],
+          [47,  27, 56, 48, 72, 20, 95]]
 
-# Example usage
-random_tree = generate_random_tree(3)  # Generating a tree with 3 levels of children
-print(random_tree)
+# Un arreglo de longutid n (columnas), 
+# y que cada elemento no pase de m (filas).
+sols = [
+        [4, 0, 3, 4, 1, 2, 3],
+        [4, 2, 1, 2, 0, 0, 3],
+        [2, 0, 2, 0, 1, 2, 3],
+        [1, 0, 3, 2, 0, 2, 1],
+        [1, 0, 3, 4, 1, 2, 1],
+    ]
+
+# Fitness evalua la solucion y te da un puntaje para saber que tan buena
+# es la solucion en cuestion.
+def fitness(solution):
+    total_value=0
+    for j in range(len(matrix[0])):
+        total_value += matrix[solution[j]][j]
+
+    return total_value
+
+# funcion fintess(solucion):
+#   total = 0
+#   para j en logitud(matrix[0]):
+#       total = total + matrix[solucion[j]][j]
+#   retornar total
+
+soluciones_evaluadas = []
+def evaluar_soluciones(sols):
+    elemento = []
+    for solucion in sols:
+        total = fitness(solucion)
+        elemento.append(total)
+        elemento.append(solucion)
+        soluciones_evaluadas.append(elemento)
+        elemento = []
+        # O...
+        #soluciones_evaluadas.append([total, solucion])
+
+evaluar_soluciones(sols)
+
+soluciones_evaluadas.sort()
+for n in soluciones_evaluadas:
+    print(n)
+
+
+# [ [[...],n], [[...],n], [[...],n], [[...],n] ]

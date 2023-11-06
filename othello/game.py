@@ -16,7 +16,12 @@ def print_board(board):
         print("--+---+---+---+---+---+---+---+---+")
         print(i, end=' ')
         for j in range(8):
-            print( "|", board[i][j],  end=' ')
+            if board[i][j] == 'X':
+                print( "|", '🔴',  end=' ', sep="")
+            elif board[i][j] == 'O':
+                print( "|", '🔵',  end=' ', sep="")
+            else:
+                print( "|", board[i][j],  end=' ')
         print("|",  end=' ')
         print()
     print("--+---+---+---+---+---+---+---+---+")
@@ -25,6 +30,10 @@ def print_board(board):
 # Sike Loop.
 current_player = 'X'
 while True:
+    print(len(get_all_valid_moves(board, 'X')), len(get_all_valid_moves(board,'O')))
+    if len(get_all_valid_moves(board, 'X')) <= 0 or len(get_all_valid_moves(board,'O')) <= 0:
+        print("Fin del juego!!")
+
     if current_player == 'X':
             print("====================== TURNO DEL JUGADOR 1 ======================")
             print_board(board)
