@@ -59,13 +59,14 @@ while True:
             print("====================== TURNO DEL JUGADOR 2 ======================")
             print_board(board)
             print("Player", current_player + "'s turn")
-            time.sleep(3)
+            #time.sleep(3)
             try:
                 # Aquí el otro jugador hace su movida, pero en realidad, aquí se sacará del 
                 # algoritmo minimax
-                root_node = create_tree(board, current_player, 5)
+                print("Thinking...")
+                root_node = create_tree(board, current_player, 7)
                 best_play_node, _ = find_best_play(root_node)
-                #print_tree(root_node)
+                print_tree(root_node)
                 print(f"Best Play: {best_play_node.move}, Score: {best_play_node.score}")
                 row, col = best_play_node.move
                 #row, col = map(int, input("Enter your move (row and column): ").split())

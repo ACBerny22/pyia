@@ -95,11 +95,23 @@ def evaluate_move(board, row, col, player):
     return xs, os, board_copy
 
 
+def sort_childs(container):
+    
+    pass
+
+
 def evaluate_moves(moves, board, player, container):
     for move in moves:
         xs, os, returned_board = evaluate_move(board, move[0], move[1], player)
         score = os - xs
         container.append(Node(score, move, returned_board))
+        if player == 'X':
+            # Ordenar con los menores primero
+            container.sort(key=lambda x: x.score, reverse=False)
+        if player == 'O':
+            # Ordenar con los mayores primero
+            container.sort(key=lambda x: x.score, reverse=True)
+        
 
 def print_tree(node, indent=0):
     print("  " * indent + f"Score: {node.score}, Move: {node.move}")

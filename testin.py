@@ -48,6 +48,12 @@ def fitness(solution):
 
     return total_value
 
+def funcionFitness(poblacion, c):
+    valor = 0
+    for i in range(len(c[0])):
+        valor += c[poblacion]
+
+
 # funcion fintess(solucion):
 #   total = 0
 #   para j en logitud(matrix[0]):
