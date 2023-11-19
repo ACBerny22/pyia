@@ -7,16 +7,7 @@ classes = df.columns.values
 class_target = classes[-1]
 outcomes = df[class_target].unique().tolist() # Lista con las clases per se, en este caso SI y NO.
 
-global_count_yes = len(df[df['jugar'] == 'si'])
-global_count_no = len(df[df['jugar'] == 'no'])
-total_jugar = len(df['jugar'])
-
-global_entropy = -(global_count_yes/total_jugar)*math.log2(global_count_yes/total_jugar)-(global_count_no/total_jugar)*math.log2(global_count_no/total_jugar)
-print(global_entropy)
-#print(global_entropy)
-
-#print(classes[:-1])
-
+# Devuelve un diccionario con las frecuencias SI y NO.
 def get_frec_tables(df, class_to_omit):
     dict = {}
 
@@ -41,7 +32,22 @@ def get_frec_tables(df, class_to_omit):
 
     return dict
 
-def get_gain(tables):
+# Recibe el diccionario y devuelve una matriz con la ganancia para cada clase
+def get_gain(df, tables):
+
+    # Para la ganancia, necesitamos acutalizar los valores que recibe para cada dataframe
+    global_count_yes = len(df[df['jugar'] == 'si'])
+    global_count_no = len(df[df['jugar'] == 'no'])
+    total_jugar = len(df['jugar'])
+
+    print(global_count_no)
+    print(global_count_yes)
+    print(total_jugar)
+
+
+    global_entropy = -(global_count_yes/total_jugar)*math.log2(global_count_yes/total_jugar)-(global_count_no/total_jugar)*math.log2(global_count_no/total_jugar)
+    print(global_entropy)
+
     gains = []
     for element in tables:
         entropy = 0
@@ -78,12 +84,34 @@ def create_dfs(df, gains):
 
         if not is_unique(branch["jugar"]):
             branches.append(branch)
+            print("WE SHALL CONTINUE")
+            print(branch)
+        else:
+            print("NEW RULE HAS BEEN CREATED!!")
+            print(branch)
 
-    return branches
+    return branches, tag_of_max_value
 
 
+def main():
+    
+    # Separacion Inicial
+    tables = get_frec_tables(df,class_to_omit=[])
+    print(tables)
+    gains = get_gain(df, tables)
+    next_branches, next_omition = create_dfs(df, gains)
 
-tables = get_frec_tables(df,class_to_omit=[])
-gains = get_gain(tables)
-next_branches = create_dfs(df, gains)
-print(next_branches)
+    # Comienzo de las iteraciones
+    while next_branches:
+        omitions = []
+        for branch in next_branches:
+            tables = get_frec_tables(branch,omitions)
+            print(tables)
+            gains = get_gain(branch, tables)
+            print(gains)
+            next_branches, next_omition = create_dfs(branch, gains)
+            omitions.append(next_omition)
+
+
+if __name__ == '__main__':
+    main()
