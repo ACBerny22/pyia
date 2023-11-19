@@ -1,3 +1,7 @@
+# Resumidor de Textos
+# Mauricio Beranbe Fortuna Lopez
+# IA 7:00 - 8:00
+
 import pandas as pd
 import numpy as np
 from nltk.tokenize import word_tokenize
@@ -35,9 +39,9 @@ def create_dict(paras):
     for para in paras:
         for sentence in para:
             #print(sentence)
-            words = word_tokenize(sentence)
+            words = sentence.split()
             for i in range(len(words)):
-                dict[words[i]] = 1 + dict.get(words[i], 0)
+                dict[words[i].lower()] = 1 + dict.get(words[i].lower(), 0)
 
     keys = list(dict.keys())
     values = list(dict.values())
@@ -102,24 +106,37 @@ def build_text(choices):
         for line in parag:
             text += line[1]
             
-            if line[1][-1] != "\n":
+            if line[1][-1] != "\n" and line[1][-1] != ".":
                 text += ". "
     print(text)
 
-# Limpiar el texto, quita puntuaciones y stopwords
-clean_paragraphs = clear_text(paragraphs)
 
-# Matriz de parrafos separados por enunciados.
-grouped_sentences = get_sentences(clean_paragraphs)
+def generate_resume(paragraphs, n):
+    # Limpiar el texto, quita puntuaciones y stopwords
+    clean_paragraphs = clear_text(paragraphs)
+    print("PARRAFOS LIMPIOS:")
+    print(clean_paragraphs)
 
-# Crea el diccionario con los puntos de cada palabra.
-dict = create_dict(grouped_sentences)
+    # Matriz de parrafos separados por enunciados.
+    grouped_sentences = get_sentences(clean_paragraphs)
+    #print(grouped_sentences)
 
-# Evaluar cada oracion.
-pick_choices = evaluate_sentences(paragraphs, dict)
+    # Crea el diccionario con los puntos de cada palabra.
+    dict = create_dict(grouped_sentences)
+    print("\nCUENTA DE PALABRAS:")
+    print(dict)
 
-# Obtener las oraciones que formaran parte del resumen.
-resume = select_lines(pick_choices, 2)
+    # Evaluar cada oracion.
+    pick_choices = evaluate_sentences(paragraphs, dict)
+    print("\nFRASES CON PUNTOS:")
+    print(pick_choices)
 
-# Construir el parrafo completo
-build_text(resume)
+    # Obtener las oraciones que formaran parte del resumen.
+    resume = select_lines(pick_choices, n)
+    #print(resume)
+
+    # Construir el parrafo completo
+    print("\nRESUMEN:")
+    build_text(resume)
+
+generate_resume(paragraphs, 3)
