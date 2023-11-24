@@ -16,11 +16,11 @@ o_black_player = "⚫" #O
 
 # Function to check if a move is valid
 def is_valid_move(board, row, col, player):
-    if board[row][col] != 'ㅤ':
+    if board[row][col] != ' ':
         return False
     
     directions = [(0, 1), (1, 0), (0, -1), (-1, 0), (1, 1), (-1, -1), (1, -1), (-1, 1)]
-    opponent = 'O' if player == 'X' else 'X'
+    opponent = o_black_player if player == x_white_player else x_white_player
     
     for dr, dc in directions:
         r, c = row, col
@@ -51,9 +51,9 @@ def update_chips(board):
     os = 0
     for i in range(8):
         for j in range(8):
-            if board[i][j] == 'X':
+            if board[i][j] == x_white_player:
                 xs = xs + 1
-            if board[i][j] == 'O':
+            if board[i][j] == o_black_player:
                 os = os + 1
     return xs, os
 
@@ -68,7 +68,7 @@ def make_move(board, row, col, player):
     
     board[row][col] = player
     directions = [(0, 1), (1, 0), (0, -1), (-1, 0), (1, 1), (-1, -1), (1, -1), (-1, 1)]
-    opponent = 'O' if player == 'X' else 'X'
+    opponent = o_black_player if player == x_white_player else x_white_player
     
     for dr, dc in directions:
         r, c = row, col
@@ -187,7 +187,7 @@ def create_tree(board, player, depth, node=None):
     moves = get_all_valid_moves(node.after_board, player)
     evaluate_moves(moves, node.after_board, player, node.children)
     
-    opponent = 'O' if player == 'X' else 'X'
+    opponent = o_black_player if player == x_white_player else x_white_player
     
     for child in node.children:
         create_tree(child.after_board, opponent, depth - 1, child)  # Recurse with reduced depth for children

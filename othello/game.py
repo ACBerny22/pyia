@@ -17,7 +17,7 @@ def print_board(board):
         print(i, end=' ')
         for j in range(8):
             if board[i][j] == 'X':
-                print( "|", '🔴',  end=' ', sep="")
+                print( "|", '🟡',  end=' ', sep="")
             elif board[i][j] == 'O':
                 print( "|", '🔵',  end=' ', sep="")
             else:
@@ -33,6 +33,7 @@ while True:
     print(len(get_all_valid_moves(board, 'X')), len(get_all_valid_moves(board,'O')))
     if len(get_all_valid_moves(board, 'X')) <= 0 or len(get_all_valid_moves(board,'O')) <= 0:
         print("Fin del juego!!")
+        break
 
     if current_player == 'X':
             print("====================== TURNO DEL JUGADOR 1 ======================")
@@ -64,9 +65,9 @@ while True:
                 # Aquí el otro jugador hace su movida, pero en realidad, aquí se sacará del 
                 # algoritmo minimax
                 print("Thinking...")
-                root_node = create_tree(board, current_player, 7)
+                root_node = create_tree(board, current_player, 5)
                 best_play_node, _ = find_best_play(root_node)
-                print_tree(root_node)
+                #print_tree(root_node)
                 print(f"Best Play: {best_play_node.move}, Score: {best_play_node.score}")
                 row, col = best_play_node.move
                 #row, col = map(int, input("Enter your move (row and column): ").split())

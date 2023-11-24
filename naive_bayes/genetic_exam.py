@@ -76,19 +76,10 @@ def generate_solutions(ammount):
     
     # [[...],[...],[...],[...],[...]]
 
-def fitness(solution):
-    ans = foo(solution)
-
-    if ans == 0:
-        return -1
-    else:
-        return ans
-
 def crossover(solucion1, solucion2):
     punto_corte = random.randint(0, len(matrix[0])-1)
     nueva_solucion1 = solucion1[:punto_corte] + solucion2[punto_corte:]
-    return mutacion(nueva_solucion1, 0.2)
-
+    return mutacion(nueva_solucion1, 0.1)
 
 # Apply mutation
 def mutacion(solucion, mut_rate, limite=len(matrix)-1):
@@ -132,8 +123,8 @@ def genetic():
         print(solutions_with_rank[0])
 
 
-        if solutions_with_rank[0][0] < 15:
-           break; 
+        if solutions_with_rank[0][0] < 10:
+           break;
 
         # Get best solutions
         best_solutions = solutions_with_rank[:100]
