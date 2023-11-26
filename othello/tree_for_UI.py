@@ -3,11 +3,11 @@ import copy
 
 class Node: 
     def __init__(self, score, move, after_board):
-        self.score = score
-        self.move = move
-        self.root_board = None
-        self.after_board = after_board
-        self.children = []
+        self.score = score # Quien tiene ventaja.
+        self.move = move # Coordenadas.
+        self.root_board = None # NO LE HAGAS CASO.
+        self.after_board = after_board # Tablero DESPUES de haacer el mov.
+        self.children = [] # Hijos.
 
 root = Node(0, [0,0], None)
 
@@ -191,6 +191,5 @@ def create_tree(board, player, depth, node=None):
     
     for child in node.children:
         create_tree(child.after_board, opponent, depth - 1, child)  # Recurse with reduced depth for children
-    
-    
+        
     return node

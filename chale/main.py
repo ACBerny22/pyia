@@ -7,7 +7,7 @@ import numpy as np
 from nltk.tokenize import word_tokenize
 
 # Separado por parrafos.
-with open("D:\Tareas 8vo Semestre\pyia\chale\input2.txt", "r", encoding="utf8") as f:
+with open("D:\Tareas 8vo Semestre\pyia\chale\input4.txt", "r", encoding="utf8") as f:
     paragraphs = f.readlines()
 
 punc = '''!()—-«»[]{};:'"\,<>/?@#$%^&*_~''' # No "."
@@ -139,4 +139,4 @@ def generate_resume(paragraphs, n):
     print("\nRESUMEN:")
     build_text(resume)
 
-generate_resume(paragraphs, 3)
+generate_resume(paragraphs, 2)
