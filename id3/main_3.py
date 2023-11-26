@@ -4,6 +4,7 @@
 
 import pandas as pd
 import math
+import json
 
 df = pd.read_csv("id3/tennis.csv")
 
@@ -146,7 +147,7 @@ def iter(next_branches, next_omition):
             print(tables)
             gains = get_gain(branch, tables)
             end_branches, next_branches, next_omition, temp_dict = create_dfs(branch, gains)
-            collection.append((temp_dict, prayer))
+            collection.append(temp_dict)
 
             
             if next_branches:
@@ -155,6 +156,29 @@ def iter(next_branches, next_omition):
 
         if len(end_branches) > 0:
             break
+
+def agregar_en_espacio_vacio(dic_principal, dic_secundario):
+    for key, value in dic_principal.items():
+        if isinstance(value, dict):
+            if not value:
+                dic_principal[key] = dic_secundario
+                return True
+            else:
+                if agregar_en_espacio_vacio(value, dic_secundario):
+                    return True
+    return False
+
+def find_leaf_paths(tree, path=None):
+    if path is None:
+        path = []
+
+    for key, value in tree.items():
+        current_path = path + [key]
+
+        if isinstance(value, dict):
+            find_leaf_paths(value, current_path)
+        else:
+            print(" -> ".join(current_path) + " : " + str(value))
 
 def main():
     
@@ -167,14 +191,23 @@ def main():
     gains = get_gain(df, tables)
 
     end_branches, next_branches, next_omition, out_tree = create_dfs(df, gains)
-    collection.append((out_tree, None))
+    collection.append(out_tree)
 
     # Comienzo de las iteraciones
     iter(next_branches, next_omition)
 
-    print("AND SO, WE HAVE THIS SHIT:")
-    for coll in collection:
-        print(coll)
+    tree = collection[0]
+
+    for options in collection[1:]:
+        if not agregar_en_espacio_vacio(tree, options):
+            print("No se encontró espacio vacío para agregar el diccionario secundario:", options)
+
+    print("\nARBOL DE DECISION: ")
+    print(json.dumps(tree, indent=4, sort_keys=True))
+    print("\nREGLAS DE DECISION: ")
+    find_leaf_paths(tree)
+
+    
             
 if __name__ == '__main__':
     main()
