@@ -74,8 +74,8 @@ def make_move(board, row, col, player):
         r, c = row, col
         r += dr
         c += dc
-        # Si estamos dentro de los limites del tablero y la celda a 
-        # evaluar es del oponente comenzamos la exploración.
+        # Si estamos dentro de los limites del tablero y tenemos
+        # una ficha adyacente a la celda escogida.
         if 0 <= r < 8 and 0 <= c < 8 and board[r][c] == opponent:
             while 0 <= r < 8 and 0 <= c < 8 and board[r][c] == opponent:
                 r += dr

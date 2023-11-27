@@ -1,0 +1,15 @@
+edad,ingreso,estudiante,credito,compra
+joven,alto,no,justo,no
+joven,alto,no,excelente,no
+adulto,alto,no,justo,si
+mayor,medio,no,justo,si
+mayor,bajo,si,justo,si
+mayor,bajo,si,excelente,no
+adulto,bajo,si,excelente,si
+joven,medio,no,justo,no
+joven,bajo,si,justo,si
+mayor,alto,si,justo,si
+joven,medio,si,excelente,si
+adulto,medio,no,excelente,si
+adulto,alto,si,justo,si
+mayor,medio,no,excelente,no
