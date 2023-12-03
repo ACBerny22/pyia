@@ -92,12 +92,17 @@ def k_largest(iterable, k):
 
 def select_lines(choices, n):
     collection = []
-    for parag in choices:
-        if n < len(parag):
-            selection = k_largest(parag, n)
-        else:
-            selection = k_largest(parag, len(parag))
-        collection.append(selection)
+    if n == 0:
+        for parag in choices:
+            # Seleccionamos solo la primer oracion de cada parrafo, sin importar su puntuacion.
+            collection.append([parag[0]])
+    else:
+        for parag in choices:
+            if n < len(parag):
+                selection = k_largest(parag, n)
+            else:
+                selection = k_largest(parag, len(parag))
+            collection.append(selection)
     return collection
 
 def build_text(choices):
@@ -139,4 +144,5 @@ def generate_resume(paragraphs, n):
     print("\nRESUMEN:")
     build_text(resume)
 
-generate_resume(paragraphs, 2)
+
+generate_resume(paragraphs, 0)

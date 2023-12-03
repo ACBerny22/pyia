@@ -20,7 +20,6 @@ progress = tk.IntVar()
 s.configure("red.Horizontal.TProgressbar", foreground='white', background='DodgerBlue2')
 progressbar = ttk.Progressbar(orient=tk.HORIZONTAL, length=610, style='red.Horizontal.TProgressbar', variable=progress)
 
-
 xs = 2
 os = 2
 progress.set(30)
@@ -110,9 +109,9 @@ def play(row, col):
             if os > xs:
                 messagebox.showinfo("Gana la IA", "Chale, perdiste, ni modo pa, pa la otra.") 
 
-        root_node = create_tree(board, current_player, 3)
+        root_node = create_tree(board, current_player, 2)
         best_play_node, _ = find_best_play(root_node)
-        # print_tree(root_node)
+        print_tree(root_node)
         print(f"Best Play: {best_play_node.move}, Score: {best_play_node.score}")
         row, col = best_play_node.move
 
@@ -157,9 +156,9 @@ def main_UI():
     root.configure(bg='white')
 
     # Create a label on top of the button grid
-    label = tk.Label(root, text="Let´s Play Othello!!", font=("Arial", 18))
+    label = tk.Label(root, text="Let's Play Othello!!", font=("Arial", 18))
     label.grid(row=0, column=0, columnspan=8)  # Span the label across the grid width
-  
+
     for i in range(8):
         row_buttons = []
         for j in range(8):           

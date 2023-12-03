@@ -182,7 +182,7 @@ def create_tree(board, player, depth, node=None):
         node = Node(None, "Root", board)
     
     if depth == 0:
-        return  # Evaluate the leaf node
+        return  # Termina la funcion.
     
     moves = get_all_valid_moves(node.after_board, player)
     evaluate_moves(moves, node.after_board, player, node.children)
@@ -191,6 +191,5 @@ def create_tree(board, player, depth, node=None):
     
     for child in node.children:
         create_tree(child.after_board, opponent, depth - 1, child)  # Recurse with reduced depth for children
-    
     
     return node

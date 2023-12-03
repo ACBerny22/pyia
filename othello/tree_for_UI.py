@@ -149,7 +149,8 @@ def minimax(root):
     print_tree(root)
     pass
 
-def find_best_play(node, alpha=float('-inf'), beta=float('inf'), maximizing_player=True):
+
+def find_best_play(node, maximizing_player=True):
     if not node.children:
         return node, node.score  # If it's a leaf node, return itself and its score
     
@@ -157,25 +158,24 @@ def find_best_play(node, alpha=float('-inf'), beta=float('inf'), maximizing_play
     if maximizing_player:
         max_score = float('-inf')
         for child in node.children:
-            _, score = find_best_play(child, alpha, beta, False)
+            _, score = find_best_play(child, False)
+            if score >= 100:
+                return child, score
             if score > max_score:
                 max_score = score
                 best_node = child
-            alpha = max(alpha, max_score)
-            if beta <= alpha:
-                break  # Beta cut-off
         return best_node, max_score
     else:
         min_score = float('inf')
         for child in node.children:
-            _, score = find_best_play(child, alpha, beta, True)
+            _, score = find_best_play(child, True)
+            if score <= -100:  
+                return child, score
             if score < min_score:
                 min_score = score
                 best_node = child
-            beta = min(beta, min_score)
-            if beta <= alpha:
-                break  # Alpha cut-off
         return best_node, min_score
+
 
 def create_tree(board, player, depth, node=None):
     if node is None:
